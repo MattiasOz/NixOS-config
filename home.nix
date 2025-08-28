@@ -84,7 +84,7 @@
   };
 
   imports = [
-    ./zsh.nix
+    ./zsh/zsh.nix
     ./yazi.nix
     ./yakuake.nix
     #./nvim.nix

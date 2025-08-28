@@ -1,6 +1,9 @@
 { config, pkgs, ... }:
   
 {
+  imports = [
+    ./starship.nix
+  ];
   programs.zsh = {
     enable = true;
     enableCompletion = true;
@@ -27,8 +30,8 @@
     };
 
     initContent = ''
-      #eval "$(starship init zsh)"
-      [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
+      eval "$(starship init zsh)"
+      # [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
       #source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k/powerkevek10k.zsh-theme
       #this improves speed
       #zcompile ~/.p10k.zsh ~/.zshrc
@@ -90,11 +93,11 @@
     '';
 
     plugins = [
-      {
-        name = "powerlevel10k";
-        src = pkgs.zsh-powerlevel10k;
-        file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
-      }
+      # {
+      #   name = "powerlevel10k";
+      #   src = pkgs.zsh-powerlevel10k;
+      #   file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
+      # }
       # {
       #   name = "powerlevel10k-config";
       #   src = ~/.p10k.zsh;
@@ -111,11 +114,11 @@
         };
       }
     ];
-    oh-my-zsh = {
-      enable = true;
-      #theme = "powerlevel10k/powerlevel10k";
-      #customPkgs = [ pkgs.zsh-powerlevel10k ];
-      plugins = [ "git" ];
-    };
+    # oh-my-zsh = {
+    #   enable = true;
+    #   #theme = "powerlevel10k/powerlevel10k";
+    #   #customPkgs = [ pkgs.zsh-powerlevel10k ];
+    #   plugins = [ "git" ];
+    # };
   };
 }
