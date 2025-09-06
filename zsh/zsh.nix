@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
   
 {
   imports = [
@@ -17,7 +17,7 @@
       # nordc="nordvpn c";
       # nordd="nordvpn d";
       yt-dlp-mp3="yt-dlp -x --audio-format mp3 -o '%(title)s'";
-      yt-dlp-video="yt-dlp -o '%(title)s'";
+      yt-dlp-video="yt-dlp -o '%(title)s' --remux-video mkv --embed-metadata";
       yt-dlp-video-allAudio="yt-dlp -o '%(title)s' -f 'bv*+mergeall[ext=m4a]' --audio-multistream --embed-metadata"; # ext=m4a might work for every video, not sure
       yt-dlp-video-allAudio-playlist="yt-dlp -o '%(playlist_index)s %(title)s' -f 'bv*+mergeall[ext=m4a]' --audio-multistream --embed-metadata"; # ext=m4a might work for every video, not sure
       "7z-ultra"="7z a -t7z -m0=lzma2 -mx=9 -mfb=64 -md=32m -ms=on";
@@ -29,7 +29,7 @@
       dct="docker-compose --profile test";
     };
 
-    initContent = ''
+    initContent = lib.mkOrder 1200 ''
       eval "$(starship init zsh)"
       # [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
       #source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k/powerkevek10k.zsh-theme
@@ -62,7 +62,7 @@
 
 
       ## Keybindings section
-      bindkey -e
+      # bindkey -e
       bindkey '^[[7~' beginning-of-line                               # Home key
       bindkey '^[[H' beginning-of-line                                # Home key
       bindkey '^[[8~' end-of-line                                     # End key
@@ -80,6 +80,7 @@
       bindkey '^[[1;5D' backward-word                                 #
       bindkey '^[[1;5C' forward-word                                  #
       bindkey '^H' backward-kill-word                                 # delete previous word with ctrl+backspace
+      bindkey '^[[3;5~' kill-word                                     # delete coming word
       bindkey '^[[Z' undo                                             # Shift+tab undo last action
 
       function y() {
@@ -114,11 +115,11 @@
         };
       }
     ];
-    # oh-my-zsh = {
-    #   enable = true;
-    #   #theme = "powerlevel10k/powerlevel10k";
-    #   #customPkgs = [ pkgs.zsh-powerlevel10k ];
-    #   plugins = [ "git" ];
-    # };
+    oh-my-zsh = {
+      enable = true;
+      #theme = "powerlevel10k/powerlevel10k";
+      #customPkgs = [ pkgs.zsh-powerlevel10k ];
+      plugins = [ "git" ];
+    };
   };
 }

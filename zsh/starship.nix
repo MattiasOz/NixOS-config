@@ -252,7 +252,7 @@
         repo_root_format = "[$before_root_path]($style)[$repo_root]($repo_root_style)[$path]($style)[$read_only]($read_only_style) ";
         style = "text_light bold bg:blå";
         truncate_to_repo = false;
-        # truncation_length = 3;
+        truncation_length = 0;  #to remove truncation
         # truncation_symbol = "…/";
         use_logical_path = true;
         use_os_path_sep = true;
