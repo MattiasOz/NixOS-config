@@ -20,6 +20,7 @@ in
 
     # clipboard.register = "unnamedplus";
     # clipboard.providers.xclip.enable = true; #I duuno man 
+    clipboard.providers.wl-copy.enable = true;
     opts = {
       number = true;
       relativenumber = true;
@@ -27,6 +28,8 @@ in
       tabstop = 2;
       expandtab = true;
       scrolloff = 8;
+      ignorecase = true;
+      smartcase = true;
     };
 
     # colorschemes.onedark.enable = true;

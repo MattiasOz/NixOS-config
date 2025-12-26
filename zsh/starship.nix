@@ -43,10 +43,18 @@
         vit = "#FFFFFF";
         "grå" = "#777777";
         # "blå" = "#3b76f0";
-        "blå" = "#1c98f3";
+        # "blå" = "#1c98f3";
+        # "blå" = "#637aff";
+        cornflower = "#637aff";
         orange = "#f77401";
         text_light = "#e5e4e5";
         text_dark = "#2a2827";
+        git_bg = "#1ca9f3";
+        # git_bg = "#1c98f3";
+        # nix_shell_bg = "#1cf37b";
+        nix_shell_bg = "green";
+        conda_bg = "#ebf31c";
+        orange_bg = "yellow";   #placeholder
       };
 
       # Increase the default command timeout to 2 seconds
@@ -63,7 +71,7 @@
       # $character
       # '';
       #symbols     
-      format = "[](vit)[ ](fg:text_dark bg:vit)[](fg:vit bg:blå)$localip$directory$custom$git_branch$git_commit$git_state$git_metrics$git_status$\{custom.directory_separator_git_after\}$docker_context$nix_shell$conda$env_var$sudo$fill$cmd_duration[](fg:grå)$memory_usage[](fg:grå)$line_break$jobs$battery$status$character";
+      format = "[](vit)[ ](fg:text_dark bg:vit)[](fg:vit bg:cornflower)$localip$directory$\{custom.directory_separator_git_before\}$\{custom.directory_separator_not_inside_git_before\}$git_branch$git_commit$git_state$git_metrics$git_status$\{custom.directory_separator_git_after\}$nix_shell[](fg:nix_shell_bg bg:conda_bg)$docker_context$conda[](fg:conda_bg bg:orange_bg)[](fg:orange_bg)$env_var$sudo$fill$cmd_duration[](fg:grå)$memory_usage[](fg:grå)$line_break$jobs$battery$status$character";
       #$hg_branch$package$buf[](fg:#FCA17D bg:#86BBD8)$c$cmake$cobol$container$daml$dart$deno$dotnet$elixir$elm$erlang$golang$haskell$helm$java$julia$kotlin$lua$nim$nodejs$ocaml$perl$php$pulumi$purescript$python$rlang$red$ruby$rust$scala$swift$terraform$vlang$vagrant$zig$spack$aws$gcloud$openstack$azure$crystal$time$shlvl$singularity$kubernetes$vcsh[](fg:blå bg:#DA627D)$username$hostname$shell
       # format = "[](blå)$username$hostname$localip$shlvl$singularity$kubernetes[](fg:blå bg:#DA627D)$directory$vcsh[](fg:#DA627D bg:#FCA17D)$git_branch$git_commit$git_state$git_metrics$git_status$hg_branch[](fg:#86BBD8 bg:#06969A)$docker_context$package$buf[](fg:#FCA17D bg:#86BBD8)$c$cmake$cobol$container$daml$dart$deno$dotnet$elixir$elm$erlang$golang$haskell$helm$java$julia$kotlin$lua$nim$nodejs$ocaml$perl$php$pulumi$purescript$python$rlang$red$ruby$rust$scala$swift$terraform$vlang$vagrant$zig$nix_shell$conda$spack$memory_usage$aws$gcloud$openstack$azure$env_var$crystal$custom$sudo$cmd_duration$line_break$jobs$battery[](fg:#06969A bg:#33658A)$time$status$shell$character";
       scan_timeout = 30;
@@ -143,7 +151,7 @@
         ];
       };
       character = {
-        format = "$symbol ";
+        format = "$symbol";
         vicmd_symbol = "[❮](bold green)";
         disabled = false;
         success_symbol = "[❯](bold green) ";  #➜
@@ -188,10 +196,11 @@
       };
       conda = {
         truncation_length = 1;
-        format = "[$symbol$environment]($style) ";
+        format = "[ $symbol$environment ]($style)";
         symbol = " ";
-        style = "green bold";
-        ignore_base = true;
+        # style = "green bold";
+        style = "bold text_dark bg:conda_bg";
+        ignore_base = false;
         disabled = false;
       };
       container = {
@@ -248,9 +257,9 @@
         # symbol = " ";  #🗀🗁
         home_symbol = "~";
         # read_only = " ";
-        read_only_style = "red bg:blå";
+        read_only_style = "red bg:cornflower";
         repo_root_format = "[$before_root_path]($style)[$repo_root]($repo_root_style)[$path]($style)[$read_only]($read_only_style) ";
-        style = "text_light bold bg:blå";
+        style = "text_light bold bg:cornflower";
         truncate_to_repo = false;
         truncation_length = 0;  #to remove truncation
         # truncation_symbol = "…/";
@@ -377,7 +386,7 @@
       git_branch = {
         format = "[$symbol$branch(:$remote_branch) ]($style)";
         symbol = " ";
-        style = "bold text_dark bg:orange";
+        style = "bold text_dark bg:git_bg";
         truncation_length = 9223372036854775807;
         truncation_symbol = "…";
         only_attached = false;
@@ -388,15 +397,15 @@
       git_commit = {
         commit_hash_length = 7;
         format = "[($hash$tag)]($style) ";
-        style = "text_dark bold bg:orange";
+        style = "text_dark bold bg:git_bg";
         only_detached = true;
         disabled = false;
         tag_symbol = " 🏷  ";
         tag_disabled = true;
       };
       git_metrics = {
-        added_style = "bold text_dark bg:orange";
-        deleted_style = "bold text_dark bg:orange";
+        added_style = "bold text_dark bg:git_bg";
+        deleted_style = "bold text_dark bg:git_bg";
         only_nonzero_diffs = true;
         format = "([+$added]($added_style) )([-$deleted]($deleted_style) )";
         disabled = true;
@@ -411,7 +420,7 @@
         merge = "MERGING";
         rebase = "REBASING";
         revert = "REVERTING";
-        style = "bold text_dark bg:orange";
+        style = "bold text_dark bg:git_bg";
       };
       git_status = {
         ahead = "⇡$count ";
@@ -426,7 +435,7 @@
         renamed = "»$count ";
         staged = "++$count ";
         stashed = "\$$count ";
-        style = "text_dark bold bg:orange";
+        style = "text_dark bold bg:git_bg";
         untracked = "?$count ";
         up_to_date = "✓";
       };
@@ -489,7 +498,7 @@
         disabled = false;
         format = "[$ssh_symbol](blue dimmed bold)[$hostname]($style)";
         ssh_only = false;
-        style = "green dimmed bold bg:blå";
+        style = "green dimmed bold bg:cornflower";
         trim_at = ".";
       };
       java = {
@@ -567,7 +576,7 @@
         disabled = true;
         format = "[@$localipv4]($style)";
         ssh_only = false;
-        style = "yellow bold bg:blå";
+        style = "yellow bold bg:cornflower";
       };
       lua = {
         format = "[$symbol($version )]($style)";
@@ -582,7 +591,7 @@
       };
       memory_usage = {
         disabled = false;
-        format = "[$ram( | $swap)]($style)";
+        format = "[ $ram( | $swap)]($style)";
         style = "white bold dimmed bg:grå";
         # symbol = "";
         # threshold = 75;
@@ -603,11 +612,11 @@
         detect_folders = [];
       };
       nix_shell = {
-        format = "[$symbol$state( ($name))]($style) ";
+        format = "[ $symbol$state( ($name))]($style)";
         disabled = false;
-        impure_msg = "[impure](bold red)";
-        pure_msg = "[pure](bold green)";
-        style = "bold blue";
+        impure_msg = "[impure](bold red bg:nix_shell_bg)";
+        pure_msg = "[pure](bold green bg:nix_shell_bg)";
+        style = "bold text_dark bg:nix_shell_bg";
         symbol = " ";
       };
       nodejs = {
@@ -920,8 +929,8 @@
         format = "[$user]($style)";
         show_always = true;
         style_root = "red bold bg:#9A348E";
-        # style_user = "yellow bold bg:blå";
-        style_user = "text_light bold bg:blå";
+        # style_user = "yellow bold bg:cornflower";
+        style_user = "text_light bold bg:cornflower";
         disabled = false;
       };
       vagrant = {
@@ -979,25 +988,33 @@
 
       # Output a styled separator right after the directory when inside a git repository.
       custom.directory_separator_git_before = {
-        description = "Output a styled separator right after the directory when inside a git repository.";
+        description = "Output a styled separator right before the directory when inside a git repository.";
         command = "";
-        format = "[ ](fg:blå bg:orange)";
+        format = "[ ](fg:cornflower bg:git_bg)";
         when = "git rev-parse --is-inside-work-tree >/dev/null 2>&1";
+      };
+
+      custom.directory_separator_not_inside_git_before = {
+        description = "Output a styled separator right before the directory when inside a git repository.";
+        command = "";
+        format = "[](fg:cornflower bg:git_bg)";
+        when = "! git rev-parse --is-inside-work-tree >/dev/null 2>&1";
       };
 
       # Output a styled separator right after the directory when NOT inside a git repository.
       custom.directory_separator_not_git = {
         description = "Output a styled separator right after the directory when NOT inside a git repository.";
         command = "";
-        format = "[](fg:blå)";
+        format = "[](fg:cornflower)";
         when = "! git rev-parse --is-inside-work-tree > /dev/null 2>&1";
       };
 
       custom.directory_separator_git_after = {
         description = "Output a styled separator right after the directory when inside a git repository.";
         command = "";
-        format = "[](fg:orange)";
-        when = "git rev-parse --is-inside-work-tree >/dev/null 2>&1";
+        format = "[](fg:git_bg bg:nix_shell_bg)";
+        # when = "git rev-parse --is-inside-work-tree >/dev/null 2>&1";
+        when = "true";
       };
     };
   };

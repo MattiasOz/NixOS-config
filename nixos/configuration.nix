@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 # let 
 #   # grubCyberpunk = pkgs.fetchFromGitHub {
@@ -38,7 +38,9 @@ in
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      ./nord.nix
     ];
+  myypo.services.custom.nordvpn.enable=true;
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
@@ -141,13 +143,14 @@ in
 
   # Enable touchpad support (enabled default in most desktopManager).
   services.xserver.libinput.enable = false;
+  #services.libinput.enable = false;
   services.xserver.synaptics.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.mattias = {
     isNormalUser = true;
     description = "Mattias";
-    extraGroups = [ "networkmanager" "wheel" "docker" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" "nordvpn"];
     # packages = with pkgs; [
     #   kdePackages.kate
     # #  thunderbird
@@ -247,7 +250,8 @@ in
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
+  services.openssh.enable = true;
+  systemd.services.sshd.wantedBy = lib.mkForce []; # should disable autostart
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];

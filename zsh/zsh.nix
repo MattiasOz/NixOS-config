@@ -3,19 +3,22 @@
 {
   imports = [
     ./starship.nix
+    # ./starship2.nix
   ];
   programs.zsh = {
     enable = true;
     enableCompletion = true;
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
+    historySubstringSearch.enable = true;
 
     shellAliases = {
       la="eza -la";
+      ll="eza -l";
       cp="cp -i";
-      # nord="nordvpn status";
-      # nordc="nordvpn c";
-      # nordd="nordvpn d";
+      nord="nordvpn status";
+      nordc="nordvpn c";
+      nordd="nordvpn d";
       yt-dlp-mp3="yt-dlp -x --audio-format mp3 -o '%(title)s'";
       yt-dlp-video="yt-dlp -o '%(title)s' --remux-video mkv --embed-metadata";
       yt-dlp-video-allAudio="yt-dlp -o '%(title)s' -f 'bv*+mergeall[ext=m4a]' --audio-multistream --embed-metadata"; # ext=m4a might work for every video, not sure
@@ -27,6 +30,7 @@
       #dockerips='docker inspect -f "{{.Name}}: {{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}" $(docker ps -q)';
       dc="docker-compose";
       dct="docker-compose --profile test";
+      conda-shell="conda-shell -c zsh";
     };
 
     initContent = lib.mkOrder 1200 ''
@@ -83,6 +87,35 @@
       bindkey '^[[3;5~' kill-word                                     # delete coming word
       bindkey '^[[Z' undo                                             # Shift+tab undo last action
 
+      bindkey '^[OA' history-substring-search-up
+      # bindkey '^[OA' history-beginning-search-backward
+      # bindkey '^[[A' history-substring-search-up
+      bindkey '^[OB' history-substring-search-down
+      # bindkey '^[OB' history-beginning-search-forward
+      # bindkey '^[[B' history-substring-search-down
+
+      # alt + left, right backspace, delete
+      bindkey '^[[1;3D' backward-word
+      bindkey '^[[1;3C' forward-word
+      bindkey "^[^?" backward-kill-word
+      bindkey "^[[3;3~" kill-word
+
+      # >>> conda initialize >>>
+      # !! Contents within this block are managed by 'conda init' !!
+      __conda_setup="$('/home/mattias/.conda/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+      if [ $? -eq 0 ]; then
+          eval "$__conda_setup"
+      else
+          if [ -f "/home/mattias/.conda/etc/profile.d/conda.sh" ]; then
+              . "/home/mattias/.conda/etc/profile.d/conda.sh"
+          else
+              export PATH="/home/mattias/.conda/bin:$PATH"
+          fi
+      fi
+      unset __conda_setup
+      # <<< conda initialize <<<
+      export CONDA_CHANGEPS1=false  # disables env text above prompt
+
       function y() {
         local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
         yazi "$@" --cwd-file="$tmp"
@@ -117,9 +150,9 @@
     ];
     oh-my-zsh = {
       enable = true;
-      #theme = "powerlevel10k/powerlevel10k";
-      #customPkgs = [ pkgs.zsh-powerlevel10k ];
-      plugins = [ "git" ];
+    #   #theme = "powerlevel10k/powerlevel10k";
+    #   #customPkgs = [ pkgs.zsh-powerlevel10k ];
+    #   # plugins = [ "git" ];
     };
   };
 }

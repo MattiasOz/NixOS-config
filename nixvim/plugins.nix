@@ -98,6 +98,19 @@
       };
       # cmp-treesitter.enable = true;
       nvim-autopairs.enable = true;
+      vimtex = {
+        enable = true;
+        settings = {
+          # latexmk_build_dir = "out";
+          compiler_latexmk = {
+            options = [
+              "-pdf"
+              "-outdir=out"
+            ];
+          };
+        };
+      };
     };
   };
+  # programs.texliveMinimal.enable = true;
 }

@@ -39,14 +39,27 @@
     # starship
     #neovim
     eza
-    xclip
+    wl-clipboard
     ryubing
     yt-dlp
     discord
     nix-prefetch-github
     transmission_4-qt
+    ncdu
+    android-tools # for adb
+    conda
+    android-studio
+    obs-studio
+    ani-cli
+    tigervnc
+
+    # for vimtex
+    # texlivePackages.bibtex
+    texliveFull
+    # texlivePackages.biblatex
   ];
   nixpkgs.config.allowUnfree = true; # for discord
+  nixpkgs.config.android_sdk.accept_license = true;
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.
