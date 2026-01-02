@@ -31,6 +31,20 @@ in
       ignorecase = true;
       smartcase = true;
     };
+    autoCmd = [
+      {
+        desc = "Saves view of file while leaving";
+        command = "mkview";
+        event = ["BufWinLeave"];
+        pattern = ["?*"]; # ? is one of any, * is any of any. Both == requires a named buffer
+      }
+      {
+        desc = "Loads view of the file";
+        command = "silent! loadview";
+        event = ["BufWinEnter"];
+        pattern = ["?*"];
+      }
+    ];
 
     # colorschemes.onedark.enable = true;
     colorschemes.tokyonight = {

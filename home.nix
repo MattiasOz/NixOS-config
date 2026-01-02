@@ -52,6 +52,11 @@
     obs-studio
     ani-cli
     tigervnc
+    #libreoffice # for .docx
+
+    # read markdown in terminal. Command: pandoc -f markdown <file/content> | lynx -stdin
+    #pandoc
+    #lynx
 
     # for vimtex
     # texlivePackages.bibtex

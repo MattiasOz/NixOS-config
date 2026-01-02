@@ -42,6 +42,7 @@
       palettes.mats = {
         vit = "#FFFFFF";
         "grå" = "#777777";
+        "grå2" = "#444444";
         # "blå" = "#3b76f0";
         # "blå" = "#1c98f3";
         # "blå" = "#637aff";
@@ -71,7 +72,7 @@
       # $character
       # '';
       #symbols     
-      format = "[](vit)[ ](fg:text_dark bg:vit)[](fg:vit bg:cornflower)$localip$directory$\{custom.directory_separator_git_before\}$\{custom.directory_separator_not_inside_git_before\}$git_branch$git_commit$git_state$git_metrics$git_status$\{custom.directory_separator_git_after\}$nix_shell[](fg:nix_shell_bg bg:conda_bg)$docker_context$conda[](fg:conda_bg bg:orange_bg)[](fg:orange_bg)$env_var$sudo$fill$cmd_duration[](fg:grå)$memory_usage[](fg:grå)$line_break$jobs$battery$status$character";
+      format = "[](vit)[ ](fg:text_dark bg:vit)[](fg:vit bg:cornflower)$localip$directory$\{custom.directory_separator_git_before\}$\{custom.directory_separator_not_inside_git_before\}$git_branch$git_commit$git_state$git_metrics$git_status$\{custom.directory_separator_git_after\}$nix_shell[](fg:nix_shell_bg bg:conda_bg)$docker_context$conda[](fg:conda_bg bg:orange_bg)[](fg:orange_bg)$env_var$sudo$fill[](fg:grå2)$cmd_duration[](fg:grå bg:grå2)$\{custom.nordvpn\}$\{custom.not_nordvpn\}[](fg:grå)$line_break$jobs$battery$status$character";
       #$hg_branch$package$buf[](fg:#FCA17D bg:#86BBD8)$c$cmake$cobol$container$daml$dart$deno$dotnet$elixir$elm$erlang$golang$haskell$helm$java$julia$kotlin$lua$nim$nodejs$ocaml$perl$php$pulumi$purescript$python$rlang$red$ruby$rust$scala$swift$terraform$vlang$vagrant$zig$spack$aws$gcloud$openstack$azure$crystal$time$shlvl$singularity$kubernetes$vcsh[](fg:blå bg:#DA627D)$username$hostname$shell
       # format = "[](blå)$username$hostname$localip$shlvl$singularity$kubernetes[](fg:blå bg:#DA627D)$directory$vcsh[](fg:#DA627D bg:#FCA17D)$git_branch$git_commit$git_state$git_metrics$git_status$hg_branch[](fg:#86BBD8 bg:#06969A)$docker_context$package$buf[](fg:#FCA17D bg:#86BBD8)$c$cmake$cobol$container$daml$dart$deno$dotnet$elixir$elm$erlang$golang$haskell$helm$java$julia$kotlin$lua$nim$nodejs$ocaml$perl$php$pulumi$purescript$python$rlang$red$ruby$rust$scala$swift$terraform$vlang$vagrant$zig$nix_shell$conda$spack$memory_usage$aws$gcloud$openstack$azure$env_var$crystal$custom$sudo$cmd_duration$line_break$jobs$battery[](fg:#06969A bg:#33658A)$time$status$shell$character";
       scan_timeout = 30;
@@ -172,8 +173,8 @@
       };
       cmd_duration = {
         min_time = 2000;
-        format = " [$duration]($style) "; #⏱
-        style = "yellow bold";
+        format = "[  $duration ]($style)"; #⏱
+        style = "text_light bold bg:grå2";
         show_milliseconds = false;
         disabled = false;
         show_notifications = false;
@@ -197,7 +198,7 @@
       conda = {
         truncation_length = 1;
         format = "[ $symbol$environment ]($style)";
-        symbol = " ";
+        symbol = " ";
         # style = "green bold";
         style = "bold text_dark bg:conda_bg";
         ignore_base = false;
@@ -527,9 +528,8 @@
         detect_folders = [];
       };
       jobs = {
-        threshold = 1;
-        symbol_threshold = 0;
-        number_threshold = 2;
+        symbol_threshold = 1;
+        number_threshold = 1;
         format = "[$symbol$number]($style) ";
         symbol = "✦";
         style = "bold blue";
@@ -1015,6 +1015,23 @@
         format = "[](fg:git_bg bg:nix_shell_bg)";
         # when = "git rev-parse --is-inside-work-tree >/dev/null 2>&1";
         when = "true";
+      };
+
+      custom.nordvpn = {
+        description = "Connected nordvpn server.";
+        command = "nordvpn status | grep -Po '(?<=Hostname:\\s)\\w+'"; # takes a 0.1s sadly
+        symbol = " ";
+        format = "[ $symbol$output]($style)";
+        style = "bold text_light bg:grå";
+        when = "ip addr show nordlynx"; #probably only works with nordlynx but is faster
+      };
+      
+      custom.not_nordvpn = {
+        description = "Nordvpn disconnected symbol.";
+        symbol = " ";
+        format = "[ $symbol]($style)";
+        style = "bold text_light bg:grå";
+        when = "! ip addr show nordlynx"; #probably only works with nordlynx but is faster
       };
     };
   };

@@ -13,8 +13,8 @@
     historySubstringSearch.enable = true;
 
     shellAliases = {
-      la="eza -la";
-      ll="eza -l";
+      la="eza -lagh";
+      ll="eza -lgh";
       cp="cp -i";
       nord="nordvpn status";
       nordc="nordvpn c";
