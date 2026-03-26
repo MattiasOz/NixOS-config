@@ -31,6 +31,8 @@
       dc="docker-compose";
       dct="docker-compose --profile test";
       conda-shell="conda-shell -c zsh";
+      win11="/home/mattias/.win11.sh";
+      unwin11="/home/mattias/.unwin11.sh";
     };
 
     initContent = lib.mkOrder 1200 ''
@@ -122,6 +124,36 @@
         IFS= read -r -d "" cwd < "$tmp"
         [ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
         rm -f -- "$tmp"
+      }
+
+      function yay() {
+        local search_result=$(unbuffer nix-search $@)
+        echo $search_result | nl | tac
+        local tmp=$(print -r -- "$search_result" | sed -E $'s/\x1b\\[[0-9;]*[mK]//g; s/\x1b\\]8;;[^\\a]*\\a//g') # I don't know the regex, it removes hyperlinks
+        local packages=("''${(@f)$(print -r -- $tmp | awk '{print $1}')}")
+        read "index?Number: "
+
+        if [[ -z $index ]]; then
+          echo Doing nothing
+          return
+        fi
+
+        local substr
+        local res=()
+        substr=(''${(@s: :)index})
+        for s in $substr; do
+          if [[ $s = *-* ]]; then
+            range=(''${(@s:-:)s})
+            for idx in {$range[1]..$range[2]}; do
+              res+=($packages[$idx])
+            done
+          else
+            res+=($packages[$s])
+          fi
+        done
+        print -n Installing: 
+        print -P %F{green} $res
+        nix-shell -p $res
       }
 
     '';

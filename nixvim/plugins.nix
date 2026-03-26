@@ -58,6 +58,17 @@
         enable = true;
         servers = {
           pyright.enable = true;
+          rust_analyzer = {
+            enable = true;
+            installCargo = false;
+            installRustc = false;
+          };
+        };
+        keymaps.lspBuf = {
+          "<C-Space>" = "hover";
+        };
+        keymaps.diagnostic = {
+          "<C-e>" = "open_float";
         };
       };
       cmp = {
@@ -80,9 +91,9 @@
           #mappingPresets = ["insert"];
           mapping = {
             "<C-Space>" = "cmp.mapping.complete()";
-            "<C-d>" = "cmp.mapping.scroll_docs(-4)";
+            "<C-u>" = "cmp.mapping.scroll_docs(-4)";
             "<C-e>" = "cmp.mapping.close()";
-            "<C-u>" = "cmp.mapping.scroll_docs(4)";
+            "<C-d>" = "cmp.mapping.scroll_docs(4)";
             "<CR>" = "cmp.mapping.confirm()";
             "<S-Tab>" = "cmp.mapping(cmp.mapping.select_prev_item(), {'i', 's'})";
             "<Tab>" = "cmp.mapping(cmp.mapping.select_next_item(), {'i'})";

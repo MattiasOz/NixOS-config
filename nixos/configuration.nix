@@ -216,11 +216,16 @@ in
     vlc
     p7zip
     tree
+    unixtools.net-tools
+
+    dislocker
+    ntfs3g # for mounting the dislocker file in rw
 
     gparted
     exfatprogs # enables gparted to use format to exfat
     #gnome-icon-theme # should enable gparted to display the icon but is doesn't work
   ];
+  programs.kdeconnect.enable = true;
 
   fonts.packages = with pkgs; [
     nerd-fonts.hack # used for icons

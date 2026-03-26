@@ -53,6 +53,9 @@
     ani-cli
     tigervnc
     #libreoffice # for .docx
+    gimp
+    rustup
+    expect # using unbuffer in the yay replacement function
 
     # read markdown in terminal. Command: pandoc -f markdown <file/content> | lynx -stdin
     #pandoc
@@ -107,6 +110,7 @@
     ./yakuake.nix
     #./nvim.nix
     ./nixvim/nixvim.nix
+    ./ideavim.nix
   ];
 
   #programs.neovim = {
