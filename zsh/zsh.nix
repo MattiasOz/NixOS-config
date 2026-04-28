@@ -28,8 +28,8 @@
       # unwin11="sudo ~/.BLunmount.sh";
       getip="ip addr show | grep -Eo '192.168.[0-9]{1,3}.[0-9]{1,3}/' | rev | cut -c 2- | rev";
       #dockerips='docker inspect -f "{{.Name}}: {{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}" $(docker ps -q)';
-      dc="docker-compose";
-      dct="docker-compose --profile test";
+      dc="docker compose";
+      dct="docker compose --profile test";
       conda-shell="conda-shell -c zsh";
       win11="/home/mattias/.win11.sh";
       unwin11="/home/mattias/.unwin11.sh";
@@ -52,7 +52,7 @@
       setopt nobeep                                                   # No beep
       setopt appendhistory                                            # Immediately append history instead of overwriting
       setopt histignorealldups                                        # If a new command is a duplicate, remove the older one
-      setopt autocd                                                   # if only directory path is entered, cd there.
+      # setopt autocd                                                   # if only directory path is entered, cd there.
       setopt inc_append_history                                       # save commands are added to the history immediately, otherwise only when shell exits.
       setopt histignorespace                                          # Don't save commands that start with space
 
@@ -127,6 +127,10 @@
       }
 
       function yay() {
+        if [[ -z $@ ]]; then
+          echo Please enter search term
+          return
+        fi
         local search_result=$(unbuffer nix-search $@)
         echo $search_result | nl | tac
         local tmp=$(print -r -- "$search_result" | sed -E $'s/\x1b\\[[0-9;]*[mK]//g; s/\x1b\\]8;;[^\\a]*\\a//g') # I don't know the regex, it removes hyperlinks
@@ -154,6 +158,17 @@
         print -n Installing: 
         print -P %F{green} $res
         nix-shell -p $res
+      }
+
+      function watt() {
+        # local online=$(cat /sys/class/power_supply/ACAD/online)
+        local prefix=""
+        if [[ $(cat /sys/class/power_supply/ACAD/online) == 0 ]];
+        then
+          prefix="-"
+        fi
+        # echo -- $prefix $(( $(cat /sys/class/power_supply/BAT1/power_now) / 1000000)) W
+        printf "%s%s W\n" "$prefix" "$(( $(cat /sys/class/power_supply/BAT1/power_now) / 1000000))"
       }
 
     '';

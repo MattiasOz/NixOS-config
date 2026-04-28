@@ -49,6 +49,24 @@
         lua = true;
         options.expr = true;
       }
+      {
+        mode = "i";
+        key = "<C-BS>";  # for kitty
+        action = ''
+          function()
+            local col = vim.fn.col('.')
+            local line = vim.fn.getline('.')
+            local char_after = col <= #line and line:sub(col, col) or ""
+            if char_after ~= "" then
+              return '<C-o>db'
+            else
+              return '<C-o>dvb'
+            end
+          end
+        '';
+        lua = true;
+        options.expr = true;
+      }
     ];
   };
 }

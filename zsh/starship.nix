@@ -55,7 +55,7 @@
         # nix_shell_bg = "#1cf37b";
         nix_shell_bg = "green";
         conda_bg = "#ebf31c";
-        orange_bg = "yellow";   #placeholder
+        orange_bg = "#fb931c";   #placeholder
       };
 
       # Increase the default command timeout to 2 seconds

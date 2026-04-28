@@ -39,6 +39,7 @@ in
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ./nord.nix
+      ./nixfix.nix
     ];
   myypo.services.custom.nordvpn.enable=true;
 
@@ -224,6 +225,8 @@ in
     gparted
     exfatprogs # enables gparted to use format to exfat
     #gnome-icon-theme # should enable gparted to display the icon but is doesn't work
+
+    kitty # for hyprland
   ];
   programs.kdeconnect.enable = true;
 
@@ -234,6 +237,8 @@ in
   programs.zsh.enable = true;
   users.users.mattias.shell = pkgs.zsh;
   virtualisation.docker.enable = true;
+
+  programs.hyprland.enable = true;
 
   # security.polkit.extraConfig = ''
   #   polkit.addRule(function(action, subject) {

@@ -56,6 +56,18 @@
     gimp
     rustup
     expect # using unbuffer in the yay replacement function
+    # cockatrice # mtg client
+    (pkgs.cockatrice.overrideAttrs (oldAttrs: rec {
+      version = "2.10.3";
+      date = "2026-02-22";
+      src = pkgs.fetchFromGitHub {
+        owner = "Cockatrice";
+        repo = "Cockatrice";
+        rev = "${date}-Release-${version}";
+        sha256 = "sha256-GQVdn6vUW0B9vSk7ZvSDqMNhLNe86C+/gE1n6wfQIMw=";
+      };
+    }))
+    browsh
 
     # read markdown in terminal. Command: pandoc -f markdown <file/content> | lynx -stdin
     #pandoc
@@ -129,6 +141,13 @@
   programs.zsh.initContent = ''
     eval "$(z --init zsh enhanced)"
   '';
+  programs.kitty = {
+    enable = true;
+    settings = {
+      dynamic_background_opacity = true;
+      background_opacity = 0.6;
+    };
+  };
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
