@@ -1,3 +1,4 @@
+{pkgs,...}:
 {
   programs.nixvim = {
     plugins = {
@@ -63,6 +64,8 @@
             installCargo = false;
             installRustc = false;
           };
+          docker_compose_language_service.enable = true;
+          clangd.enable = true; # for cpp
         };
         keymaps.lspBuf = {
           "<C-Space>" = "hover";
@@ -111,14 +114,17 @@
       nvim-autopairs.enable = true;
       vimtex = {
         enable = true;
+        texlivePackage = pkgs.texliveFull;
         settings = {
           # latexmk_build_dir = "out";
           compiler_latexmk = {
             options = [
               "-pdf"
-              "-outdir=out"
+              # "-outdir=out"
+              "-output-directory=out"
             ];
           };
+          view_method = "zathura";
         };
       };
     };

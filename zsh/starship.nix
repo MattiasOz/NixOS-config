@@ -1018,6 +1018,7 @@
       };
 
       custom.nordvpn = {
+        disabled = false;
         description = "Connected nordvpn server.";
         command = "nordvpn status | grep -Po '(?<=Hostname:\\s)\\w+'"; # takes a 0.1s sadly
         symbol = " ";
@@ -1027,6 +1028,7 @@
       };
       
       custom.not_nordvpn = {
+        disabled = false;
         description = "Nordvpn disconnected symbol.";
         symbol = " ";
         format = "[ $symbol]($style)";

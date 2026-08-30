@@ -59,6 +59,7 @@ in
     # theme = grubSmth;
     theme = grubCyberpunk;
   };
+  boot.supportedFilesystems = [ "cifs" ];
 
   # boot.loader.grub.theme = pkgs.stdenv.mkDerivation {
   #   pname = "CyberGrub";
@@ -140,7 +141,7 @@ in
     #media-session.enable = true;
   };
   hardware.bluetooth.enable = true;
-  # hardware.bluetooth.powerOnBoot = true;
+  hardware.bluetooth.powerOnBoot = false;
 
   # Enable touchpad support (enabled default in most desktopManager).
   services.xserver.libinput.enable = false;
@@ -190,10 +191,14 @@ in
       size = 16 * 1024;
     }
   ];
-  systemd.sleep.extraConfig = ''
-    HibernateDelaySec=3h
-    SuspendState=mem
-  '';
+  # systemd.sleep.extraConfig = ''
+  #   HibernateDelaySec=3h
+  #   SuspendState=mem
+  # '';
+  systemd.sleep.settings.Sleep = {
+    HibernateDelaySec = "3h";
+    SuspendState = "mem";
+  };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -202,7 +207,8 @@ in
   #  wget
     home-manager
     nix-search-cli
-    neofetch
+    # neofetch #deprecated???
+    fastfetch
     htop
     zsh
     zsh-powerlevel10k
@@ -218,6 +224,8 @@ in
     p7zip
     tree
     unixtools.net-tools
+    zathura
+    kdePackages.okular
 
     dislocker
     ntfs3g # for mounting the dislocker file in rw
@@ -227,18 +235,31 @@ in
     #gnome-icon-theme # should enable gparted to display the icon but is doesn't work
 
     kitty # for hyprland
+    cifs-utils
+    keyutils
+    openfortivpn
   ];
+  services.samba.enable = true;
+  security.krb5.enable = true;
   programs.kdeconnect.enable = true;
 
   fonts.packages = with pkgs; [
     nerd-fonts.hack # used for icons
+    # nerd-fonts.jetbrains-mono
   ];
+  # services.xserver.gdk-pixbuf.modulePackages = [ pkgs.librsvg ];
 
   programs.zsh.enable = true;
   users.users.mattias.shell = pkgs.zsh;
   virtualisation.docker.enable = true;
+  virtualisation.virtualbox.host.enable = true;
 
-  programs.hyprland.enable = true;
+  # programs.hyprland.enable = true;
+  # programs.hyprlock.enable = true;
+  # services.hypridle.enable = true;
+  security.pam.services.sddm.kwallet.enable = true;
+
+  services.logind.settings.Login.HandleLidSwitch="suspend-then-hibernate";
 
   # security.polkit.extraConfig = ''
   #   polkit.addRule(function(action, subject) {
